@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Driven Pendulum Simulation</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono&display=swap&subset=greek" rel="stylesheet">
+
+    <style media="screen">
+      * {
+        padding:0;
+        margin:0;
+        font-family: 'Roboto', sans-serif;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        width: 100%; height: 100%;
+        overflow: hidden;
+      }
+
+      .math {font-family: 'Roboto Mono', serif; font-style: italic;}
+
+      span.dt {position: relative;}
+      span.dt::before {
+        content: "\0307";
+        position: absolute;
+        margin-left: 0.515em;
+        margin-top: -0.25em;
+      }
+
+      span.ddt {position: relative;}
+      span.ddt::before {
+        content: "\0307\0020\0307";
+        position: absolute;
+        margin-left: 0.4em;
+        margin-top: -0.25em;
+      }
+
+      span.omega_d {position: relative; margin-right: 0.45em; font-size: 'Roboto Mono', serif;}
+      span.omega_d::after {
+        content: "d";
+        position: absolute;
+        margin-top: 0.7em;
+        font-size: 0.7em;
+      }
+
+      #canvas {
+        width: 75%;
+        background: #DEDEDE;
+        overflow: hidden;
+      }
+
+      #sidebar {
+        float:right;
+        width: 25%; height: 100%;
+        padding: 1%;
+        overflow-y: scroll;
+
+        color: #DEDEDE;
+        background: #0F0F0F;
+      }
+      #sidebar a {color: #4A77FF;}
+      #sidebar button {
+        display: block;
+        width: 100%;
+        padding: 0.5em;
+        margin-bottom: 0.3em;
+
+        color: #0F0F0F;
+        background: #DEDEDE;
+        font-size: 1.5em;
+        border: none;
+        border-radius: 0.1em;
+      }
+      #sidebar input {
+        display: block;
+        width: 100%;
+        padding: 0.5em;
+        margin-bottom: 0.3em;
+
+        color: #0F0F0F;
+        background: #DEDEDE;
+        font-size: 1em;
+        border: none;
+        border-radius: 0.1em;
+      }
+      #sidebar input[type=submit]{
+        background: #4A77FF;
+        color: #0F0F0F;
+        font-size: 1.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="sidebar">
+      <form id="settings">
+        <input type="submit" value="Start Animation" />
+        <a id="download" href="download" style="text-align: center; display: block;">Download .dat-File</a>
+        <label>
+          Damping <span class="math">&gamma;</span><br />
+          <input type="text" step="0.1" name="gamma" value="0.25" />
+        </label>
+        <label>
+          Driving strength <span class="math">&alpha;</span><br />
+          <input type="text" step="0.1" name="alpha" value="0" />
+        </label>
+        <label>
+          Driving frequency <span class="math omega_d">&omega;</span><br />
+          <input type="text" step="0.1" name="omega_d" value="2/3" />
+        </label>
+        <label>
+          Time step length <span class="math">&Delta;t</span><br />
+          <input type="text" name="dt" value="0.1" />
+        </label>
+        <label>
+          Time steps <span class="math">n</span> (max. 500000)<br />
+          <input type="text" name="step_count" value="10000" />
+        </label>
+        <label>
+          <span class="math">&thetasym;(0)</span><br />
+          <input type="text" name="initial_theta" value="0" />
+        </label>
+        <label>
+          <span class="math"><span class="dt">&thetasym;</span>(0)</span><br />
+          <input type="text" name="initial_omega" value="1" />
+        </label>
+      </form>
+
+      <p style="text-align: center;">
+        Differential equation:<br />
+        <span class="math"><span class="ddt">&thetasym;</span> = - sin(&thetasym;) - 2&gamma;<span class="dt">&thetasym;</span> + &alpha;sin(<span class="omega_d">&omega;</span>t)</span><br /><br />
+      </p>
+      <p style="text-align: center;">
+        Method: Runge-Kutta 4
+      </p>
+    </div>
+
+    <script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
